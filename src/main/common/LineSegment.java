@@ -7,20 +7,20 @@ public class LineSegment {
     private final TimeDiff timeToNextStop;
     private final TreeMap<Time, Integer> numberOfPassengers;
     private final int capacity;
-    private final LineName lineName;
     private final StopName nextStop;
+    private final LineName lineName;
     private final StopGetter stops;
-    private final SegmentFactory segmentFactory;
+    private final LineFactory lineFactory;
 
     public LineSegment(TimeDiff timeToNextStop, TreeMap<Time, Integer> numberOfPassengers,
-                       int capacity, LineName lineName, StopName nextStop, StopGetter stops, SegmentFactory segmentFactory) {
+                       int capacity, StopName nextStop, LineName lineName, StopGetter stops, LineFactory lineFactory) {
         this.timeToNextStop = timeToNextStop;
         this.numberOfPassengers = numberOfPassengers;
         this.capacity = capacity;
         this.lineName = lineName;
         this.nextStop = nextStop;
         this.stops = stops;
-        this.segmentFactory = segmentFactory;
+        this.lineFactory = lineFactory;
     }
 
     public Pair<Time, StopName> nextStop(Time startTime){
@@ -46,7 +46,7 @@ public class LineSegment {
 
     public void incrementCapacity(Time finishTime){
         Time time = new Time(finishTime.getTime() - timeToNextStop.getDiff());
-        numberOfPassengers.replace(time, numberOfPassengers.get(time), numberOfPassengers.get(time) + 1);
-        //segmentFactory.
+        //numberOfPassengers.replace(time, numberOfPassengers.get(time), numberOfPassengers.get(time) + 1);
+        lineFactory.incrementCapacity(lineName, time);
     }
 }

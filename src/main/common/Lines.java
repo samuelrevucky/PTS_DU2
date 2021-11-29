@@ -6,17 +6,19 @@ import java.util.HashMap;
 public class Lines {
 
     private final LineFactory lineFactory;
+    private final StopGetter stops;
     private final HashMap<LineName, Line> lines = new HashMap<>();
 
-    public Lines(LineFactory lineFactory) {
+    public Lines(LineFactory lineFactory, StopGetter stops) {
         this.lineFactory = lineFactory;
+        this.stops = stops;
     }
 
     public Time updateReachable(List<LineName> lineNames, StopName stop, Time time) {
         int lowestStartTime = Integer.MAX_VALUE;
         for(LineName x : lineNames){
             if(!lines.containsKey(x)) {
-                lines.put(x, lineFactory.createLine(x));
+                lines.put(x, lineFactory.createLine(x, stops));
                 lowestStartTime = Math.min(lowestStartTime, lines.get(x).updateReachable(stop, time));
             }
         }

@@ -1,17 +1,16 @@
 package main.inMemory;
 
 import main.common.*;
-
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class inMemStopFactory implements StopFactory {
 
-    HashMap<StopName, ArrayList<LineName>> stops = new HashMap<>();
+    private final Map<StopName, List<LineName>> stops;
 
-    public void addStopData(StopName stopName, ArrayList<LineName> lineNames){
-        stops.put(new StopName(stopName), new ArrayList<>(lineNames));
+    public inMemStopFactory(Map<StopName, List<LineName>> stops){
+        this.stops = stops;
     }
 
     @Override

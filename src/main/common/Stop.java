@@ -7,9 +7,9 @@ public class Stop {
 
     private Time reachableAt;
     private LineName reachableVia;
-    private final ArrayList<LineName> lines;
+    private final List<LineName> lines;
 
-    public Stop(ArrayList<LineName> lines) {
+    public Stop(List<LineName> lines) {
         this.lines = new ArrayList<>(lines);
     }
 

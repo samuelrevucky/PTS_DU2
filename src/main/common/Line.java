@@ -1,14 +1,14 @@
 package main.common;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Line {
 
-    private final ArrayList<Time> startTimes;
-    private final ArrayList<LineSegment> lineSegments;
+    private final List<Time> startTimes;
+    private final List<LineSegment> lineSegments;
     private final StopName firstStop;
 
-    public Line(ArrayList<Time> startingTimes, ArrayList<LineSegment> lineSegments, StopName firstStop) {
+    public Line(List<Time> startingTimes, List<LineSegment> lineSegments, StopName firstStop) {
         this.startTimes = startingTimes;
         this.lineSegments = lineSegments;
         this.firstStop = firstStop;
