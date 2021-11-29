@@ -14,9 +14,9 @@ public class ConnectionSearch {
     private final Lines lines;
     private final Stops stops;
 
-    private ConnectionSearch(LineFactory lineFactory, StopFactory stopFactory) {
-        stops = new Stops(stopFactory);
-        lines = new Lines(lineFactory, stops);
+    private ConnectionSearch(Stops stops, Lines lines) {
+        this.stops = stops;
+        this.lines = lines;
     }
 
     private ConnectionData search(StopName from, StopName to, Time when) {
@@ -50,6 +50,7 @@ public class ConnectionSearch {
 
         stack.push(new Tuple<>(new StopName(stopName), null, when));
         lines.clean();
+        stops.clean();
         return new ConnectionData("Fastest route found successfully!", stack);
     }
 }

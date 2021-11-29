@@ -60,4 +60,6 @@ public class Stops implements StopGetter{
         return stops.get(stop).getLines();
     }
 
+    public void clean(){stops.clear();}
+
 }
