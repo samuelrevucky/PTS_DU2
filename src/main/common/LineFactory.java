@@ -1,4 +1,4 @@
-package common;
+package main.common;
 
 public interface LineFactory {
     public Line createLine(LineName lineName);

@@ -1,4 +1,4 @@
-package common;
+package main.common;
 
 public class Tuple<I, II, III> {
     I x;

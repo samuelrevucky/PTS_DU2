@@ -1,6 +1,6 @@
-package inMemory;
+package main.inMemory;
 
-import common.*;
+import main.common.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
