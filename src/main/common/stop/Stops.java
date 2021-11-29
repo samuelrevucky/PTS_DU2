@@ -1,5 +1,6 @@
-package main.common;
+package main.common.stop;
 
+import main.common.dataTypes.*;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;

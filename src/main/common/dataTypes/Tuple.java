@@ -1,9 +1,9 @@
-package main.common;
+package main.common.dataTypes;
 
 public class Tuple<I, II, III> {
-    I x;
-    II y;
-    III z;
+    public I x;
+    public II y;
+    public III z;
 
     public Tuple(I x, II y, III z){
         this.x = x;

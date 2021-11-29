@@ -1,6 +1,9 @@
 package main.inMemory;
 
-import main.common.*;
+import main.common.dataTypes.LineName;
+import main.common.dataTypes.StopName;
+import main.common.stop.Stop;
+import main.common.stop.StopFactory;
 import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Map;

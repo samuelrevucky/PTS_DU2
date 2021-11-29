@@ -1,5 +1,6 @@
-package main.common;
+package main.common.line;
 
+import main.common.dataTypes.*;
 import java.util.List;
 
 public class Line {

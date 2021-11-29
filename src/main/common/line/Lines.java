@@ -1,5 +1,7 @@
-package main.common;
+package main.common.line;
 
+import main.common.stop.StopGetter;
+import main.common.dataTypes.*;
 import java.util.List;
 import java.util.HashMap;
 

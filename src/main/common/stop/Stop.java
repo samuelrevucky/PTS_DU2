@@ -1,5 +1,8 @@
-package main.common;
+package main.common.stop;
 
+import main.common.dataTypes.LineName;
+import main.common.dataTypes.Pair;
+import main.common.dataTypes.Time;
 import java.util.List;
 import java.util.ArrayList;
 

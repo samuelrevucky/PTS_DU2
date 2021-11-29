@@ -1,6 +1,6 @@
-package main.common;
+package main.common.dataTypes;
 
-public class Time implements Comparable{
+public class Time implements Comparable<Time>{
 
     private final int time;
 
@@ -17,7 +17,7 @@ public class Time implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        return time - ((Time) o).getTime();
+    public int compareTo(Time o) {
+        return time - o.getTime();
     }
 }

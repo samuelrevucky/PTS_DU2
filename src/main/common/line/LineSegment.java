@@ -1,4 +1,8 @@
-package main.common;
+package main.common.line;
+
+import main.common.stop.Stop;
+import main.common.stop.StopGetter;
+import main.common.dataTypes.*;
 
 import java.util.TreeMap;
 

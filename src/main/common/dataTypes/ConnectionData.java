@@ -1,12 +1,13 @@
-package main.common;
+package main.common.dataTypes;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class ConnectionData {
 
-    private String message;
-    private ArrayList<Tuple<StopName, LineName, Time>> route;
+    private final String message;
+    private List<Tuple<StopName, LineName, Time>> route;
 
     public ConnectionData(String message){
         this.message = message;
@@ -18,7 +19,7 @@ public class ConnectionData {
         while(!route.isEmpty()) this.route.add(route.pop());
     }
 
-    public ArrayList<Tuple<StopName, LineName, Time>> getRoute(){
+    public List<Tuple<StopName, LineName, Time>> getRoute(){
         return route;
     }
 
