@@ -4,7 +4,6 @@ import main.common.dataTypes.LineName;
 import main.common.dataTypes.Pair;
 import main.common.dataTypes.Time;
 import java.util.List;
-import java.util.ArrayList;
 
 public class Stop {
 
@@ -13,7 +12,7 @@ public class Stop {
     private final List<LineName> lines;
 
     public Stop(List<LineName> lines) {
-        this.lines = new ArrayList<>(lines);
+        this.lines = lines;
     }
 
     public void updateReachableAt(Time time, LineName line){
