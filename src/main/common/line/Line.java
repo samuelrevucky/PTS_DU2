@@ -18,12 +18,10 @@ public class Line {
     public int updateReachable(StopName stop, Time time){
 
         int result = Integer.MAX_VALUE;
-
         for(int i = startTimes.size() - 1; i >= 0; --i) {
 
             Time startTime = startTimes.get(i);
             if (startTime.getTime() < time.getTime()) break;
-
             int startingStopIndex = 0;
 
             if(!stop.getStopName().equals(firstStop.getStopName())){
@@ -31,12 +29,11 @@ public class Line {
                     Pair<Time, StopName> pair = lineSegments.get(j).nextStop(startTime);
                     startTime = (pair.x);
                     if(pair.y.getStopName().equals(stop.getStopName())){
-                        startingStopIndex = j;
+                        startingStopIndex = j + 1;
                         break;
                     }
                 }
             }
-
             for (int j = startingStopIndex; j < lineSegments.size(); ++j) {
                 Tuple<Time, StopName, Boolean> tuple = lineSegments.get(j).nextStopAndUpdateReachable(startTime);
                 if(j == startingStopIndex){
@@ -51,7 +48,7 @@ public class Line {
 
     public StopName updateCapacityAndGetPreviousStop(StopName stopName, Time time){
         for(int i = lineSegments.size() - 1; i >= 0; --i){
-            if(lineSegments.get(i).nextStop().getStopName().equals(stopName.getStopName())) {
+            if(lineSegments.get(i).nextStop().equals(stopName)) {
                 lineSegments.get(i).incrementCapacity(time);
                 if(i > 0) return lineSegments.get(i - 1).nextStop();
                 else return firstStop;

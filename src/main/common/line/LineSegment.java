@@ -36,7 +36,7 @@ public class LineSegment {
     }
 
     public Tuple<Time, StopName, Boolean> nextStopAndUpdateReachable(Time startTime){
-        Time time = numberOfPassengers.ceilingKey(startTime);
+        Time time = new Time(numberOfPassengers.ceilingKey(startTime).getTime() + timeToNextStop.getDiff());
         Tuple<Time, StopName, Boolean> tuple = new Tuple<>(time, nextStop, null);
         if(numberOfPassengers.ceilingEntry(startTime).getValue() >= capacity) {
             tuple.z = false;

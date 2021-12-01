@@ -18,10 +18,14 @@ public class Stops implements StopGetter{
 
     @Override
     public Stop getStop(StopName stopName){
-        if(!stops.containsKey(stopName)){
-            Stop stop = stopFactory.createStop(stopName);
-            stops.put(stopName, stop);
-            return stop;
+        if(!stops.containsKey(stopName)) {
+            try {
+                Stop stop = stopFactory.createStop(stopName);
+                stops.put(stopName, stop);
+                return stop;
+            } catch (InvalidParameterException e) {
+                throw new InvalidParameterException("This stop is not defined!");
+            }
         }
         return stops.get(stopName);
     }

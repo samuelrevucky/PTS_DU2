@@ -6,13 +6,9 @@ import main.common.stop.Stop;
 import main.common.stop.StopGetter;
 import main.inMemory.inMemLineFactory;
 import org.junit.Test;
-
 import java.util.*;
-
-import main.common.dataTypes.*;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
 
 public class inMemLineFactory_test {
 
@@ -46,13 +42,13 @@ public class inMemLineFactory_test {
                 put(new Time(24), 0);
             }}, 10, new StopName("Zastavka3")));
         }});
-        factory = new inMemLineFactory(lines, lineSegments);
+        factory = new inMemLineFactory(lines, lineSegments, new FakeGetter());
     }
 
     @Test
     public void isLineCorrectTest(){
         setup();
-        Line line = factory.createLine(new LineName("1"), new FakeGetter());
+        Line line = factory.createLine(new LineName("1"));
         assertEquals("Zastavka2" ,line.updateCapacityAndGetPreviousStop(new StopName("Zastavka3"), new Time(0)).getStopName());
     }
 }

@@ -16,8 +16,10 @@ public class Stop {
     }
 
     public void updateReachableAt(Time time, LineName line){
-        reachableAt = time;
-        reachableVia = line;
+        if(reachableAt == null || time.compareTo(reachableAt) < 0) {
+            reachableAt = time;
+            reachableVia = line;
+        }
     }
 
     public Pair<Time, LineName> getReachableAt() {

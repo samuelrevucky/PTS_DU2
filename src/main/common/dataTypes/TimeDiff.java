@@ -8,10 +8,6 @@ public class TimeDiff {
         this.diff = diff;
     }
 
-    public TimeDiff(TimeDiff timeDiff){
-        this.diff = timeDiff.getDiff();
-    }
-
     public int getDiff() {
         return diff;
     }

@@ -5,6 +5,6 @@ import main.common.dataTypes.LineName;
 import main.common.dataTypes.Time;
 
 public interface LineFactory {
-    public Line createLine(LineName lineName, StopGetter stopGetter);
-    public void incrementCapacity(LineName lineName, Time time);
+    Line createLine(LineName lineName);
+    void incrementCapacity(LineName lineName, Time time);
 }

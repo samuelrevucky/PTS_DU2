@@ -8,23 +8,20 @@ import java.util.HashMap;
 public class Lines {
 
     private final LineFactory lineFactory;
-    private final StopGetter stops;
     private final HashMap<LineName, Line> lines = new HashMap<>();
 
-    public Lines(LineFactory lineFactory, StopGetter stops) {
+    public Lines(LineFactory lineFactory) {
         this.lineFactory = lineFactory;
-        this.stops = stops;
     }
 
     public Time updateReachable(List<LineName> lineNames, StopName stop, Time time) {
         int lowestStartTime = Integer.MAX_VALUE;
         for(LineName x : lineNames){
-            if(!lines.containsKey(x)) {
-                lines.put(x, lineFactory.createLine(x, stops));
-                lowestStartTime = Math.min(lowestStartTime, lines.get(x).updateReachable(stop, time));
-            }
+            if(!lines.containsKey(x))
+                lines.put(x, lineFactory.createLine(x));
+            lowestStartTime = Math.min(lowestStartTime, lines.get(x).updateReachable(stop, time));
         }
-        if(lowestStartTime == Integer.MAX_VALUE) return new Time(-1);
+        if(lowestStartTime == Integer.MAX_VALUE) return time;
         else return new Time(lowestStartTime);
     }
 

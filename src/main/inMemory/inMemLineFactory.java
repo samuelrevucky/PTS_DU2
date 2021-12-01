@@ -9,15 +9,16 @@ public class inMemLineFactory implements LineFactory {
 
     private final Map<LineName, Pair<List<Time>, StopName>> lines;
     private final Map<LineName, List<Data<TimeDiff, TreeMap<Time, Integer>, Integer, StopName>>>  lineSegments;
-
+    private final StopGetter stopGetter;
     public inMemLineFactory(Map<LineName, Pair<List<Time>, StopName>> lines, Map<LineName, List<Data<TimeDiff,
-            TreeMap<Time, Integer>, Integer, StopName>>>  lineSegments ) {
+            TreeMap<Time, Integer>, Integer, StopName>>> lineSegments, StopGetter stopGetter) {
         this.lines = Collections.unmodifiableMap(lines);
         this.lineSegments = Collections.unmodifiableMap(lineSegments);
+        this.stopGetter = stopGetter;
     }
 
     @Override
-    public Line createLine(LineName lineName, StopGetter stopGetter) {
+    public Line createLine(LineName lineName) {
         List<Data<TimeDiff, TreeMap<Time, Integer>, Integer, StopName>> value = lineSegments.get(lineName);
         List<LineSegment> segments = new ArrayList<>();
         for(Data<TimeDiff, TreeMap<Time, Integer>, Integer, StopName> x : value){
