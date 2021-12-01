@@ -5,6 +5,8 @@ import main.common.line.LineFactory;
 import main.common.line.Lines;
 import main.common.stop.StopFactory;
 import main.common.stop.Stops;
+
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
@@ -25,7 +27,15 @@ public class ConnectionSearch {
             return new ConnectionData("Invalid starting stop!");
 
         List<LineName> lineNames = stops.getLines(from);
-        Time time = lines.updateReachable(lineNames, from, when);
+        Time time = null;
+        try {
+            time = lines.updateReachable(lineNames, from, when);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            stops.clean();
+            lines.clean();
+            return new ConnectionData("There was a problem getting line data from DB!");
+        }
         Optional<Pair<Time, StopName>> pair = stops.earliestReachableStopAfter(time);
 
         while (true) {
@@ -37,7 +47,14 @@ public class ConnectionSearch {
             if (pair.get().y.equals(to)) break;
 
             lineNames = stops.getLines(pair.get().y);
-            time = lines.updateReachable(lineNames, pair.get().y, pair.get().x);
+            try {
+                time = lines.updateReachable(lineNames, pair.get().y, pair.get().x);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                stops.clean();
+                lines.clean();
+                return new ConnectionData("There was a problem getting line data from DB!");
+            }
             pair = stops.earliestReachableStopAfter(time);
         }
         Stack<Tuple<StopName, LineName, Time>> stack = new Stack<>();

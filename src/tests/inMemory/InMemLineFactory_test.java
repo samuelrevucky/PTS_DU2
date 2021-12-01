@@ -21,10 +21,12 @@ public class InMemLineFactory_test {
     }
 
     private InMemLineFactory factory;
+    private Map<LineName, Pair<List<Time>, StopName>> lines;
+    private Map<LineName, List<Data<TimeDiff, TreeMap<Time, Integer>, Integer, StopName>>>  lineSegments;
 
     private void setup(){
-        Map<LineName, Pair<List<Time>, StopName>> lines = new HashMap<>();
-        Map<LineName, List<Data<TimeDiff, TreeMap<Time, Integer>, Integer, StopName>>>  lineSegments = new HashMap<>();
+        lines = new HashMap<>();
+        lineSegments = new HashMap<>();
         lines.put(new LineName("1"), new Pair<>(new ArrayList<>(){{
             add(new Time(1));
             add(new Time(13));
@@ -49,6 +51,10 @@ public class InMemLineFactory_test {
     public void isLineCorrectTest(){
         setup();
         Line line = factory.createLine(new LineName("1"));
-        assertEquals("Zastavka2" ,line.updateCapacityAndGetPreviousStop(new StopName("Zastavka3"), new Time(0)).getStopName());
+        assertEquals("Zastavka2" ,line.updateCapacityAndGetPreviousStop(new StopName("Zastavka3"), new Time(30)).getStopName());
+        lines.clear();
+        lineSegments.clear();
+        Line line1 = factory.createLine(new LineName("1"));
+        assertEquals("Zastavka2" ,line1.updateCapacityAndGetPreviousStop(new StopName("Zastavka3"), new Time(30)).getStopName());
     }
 }

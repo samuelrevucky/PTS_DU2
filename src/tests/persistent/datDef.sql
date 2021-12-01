@@ -36,6 +36,5 @@ CREATE TABLE passengers(
 	sIndex INTEGER NOT NULL REFERENCES lineSegments(sIndex) ON DELETE RESTRICT ON UPDATE CASCADE,
 	time INTEGER NOT NULL,
 	pCount INTEGER NOT NULL,
-	UNIQUE (lineName, sIndex),
 	CHECK (time >= 0 AND pCount >= 0)
 );

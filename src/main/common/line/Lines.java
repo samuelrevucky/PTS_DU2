@@ -2,6 +2,8 @@ package main.common.line;
 
 import main.common.stop.StopGetter;
 import main.common.dataTypes.*;
+
+import java.sql.SQLException;
 import java.util.List;
 import java.util.HashMap;
 
@@ -14,7 +16,7 @@ public class Lines {
         this.lineFactory = lineFactory;
     }
 
-    public Time updateReachable(List<LineName> lineNames, StopName stop, Time time) {
+    public Time updateReachable(List<LineName> lineNames, StopName stop, Time time) throws SQLException {
         int lowestStartTime = Integer.MAX_VALUE;
         for(LineName x : lineNames){
             if(!lines.containsKey(x))
