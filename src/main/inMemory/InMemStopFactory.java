@@ -9,11 +9,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class inMemStopFactory implements StopFactory {
+public class InMemStopFactory implements StopFactory {
 
     private final Map<StopName, List<LineName>> stops;
 
-    public inMemStopFactory(Map<StopName, List<LineName>> stops){
+    public InMemStopFactory(Map<StopName, List<LineName>> stops){
         this.stops = Collections.unmodifiableMap(stops);
     }
 

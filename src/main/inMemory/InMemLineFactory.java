@@ -5,12 +5,12 @@ import main.common.line.*;
 import main.common.stop.StopGetter;
 import java.util.*;
 
-public class inMemLineFactory implements LineFactory {
+public class InMemLineFactory implements LineFactory {
 
     private final Map<LineName, Pair<List<Time>, StopName>> lines;
     private final Map<LineName, List<Data<TimeDiff, TreeMap<Time, Integer>, Integer, StopName>>>  lineSegments;
     private final StopGetter stopGetter;
-    public inMemLineFactory(Map<LineName, Pair<List<Time>, StopName>> lines, Map<LineName, List<Data<TimeDiff,
+    public InMemLineFactory(Map<LineName, Pair<List<Time>, StopName>> lines, Map<LineName, List<Data<TimeDiff,
             TreeMap<Time, Integer>, Integer, StopName>>> lineSegments, StopGetter stopGetter) {
         this.lines = Collections.unmodifiableMap(lines);
         this.lineSegments = Collections.unmodifiableMap(lineSegments);

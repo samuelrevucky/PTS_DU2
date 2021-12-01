@@ -4,8 +4,8 @@ import main.common.ConnectionSearch;
 import main.common.dataTypes.*;
 import main.common.line.Lines;
 import main.common.stop.Stops;
-import main.inMemory.inMemLineFactory;
-import main.inMemory.inMemStopFactory;
+import main.inMemory.InMemLineFactory;
+import main.inMemory.InMemStopFactory;
 import org.junit.Test;
 
 import java.util.*;
@@ -13,7 +13,7 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 
 
-public class inMemConnectionSearch_test {
+public class InMemConnectionSearch_test {
 
     private ConnectionSearch connectionSearch;
     private Map<LineName, Pair<List<Time>, StopName>> lines;
@@ -63,9 +63,9 @@ public class inMemConnectionSearch_test {
     private void setup_connection_search(){
         if(lineSegments == null || lines == null || stops == null) setup_lines_segments_stops();
 
-        inMemStopFactory stopFactory = new inMemStopFactory(stops);
+        InMemStopFactory stopFactory = new InMemStopFactory(stops);
         Stops STOPS = new Stops(stopFactory);
-        inMemLineFactory lineFactory = new inMemLineFactory(lines, lineSegments, STOPS);
+        InMemLineFactory lineFactory = new InMemLineFactory(lines, lineSegments, STOPS);
 
         connectionSearch = new ConnectionSearch(STOPS,new Lines(lineFactory));
     }

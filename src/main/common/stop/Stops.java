@@ -2,6 +2,7 @@ package main.common.stop;
 
 import main.common.dataTypes.*;
 import java.security.InvalidParameterException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +20,14 @@ public class Stops implements StopGetter{
     @Override
     public Stop getStop(StopName stopName){
         if(!stops.containsKey(stopName)) {
+            Stop stop = null;
             try {
-                Stop stop = stopFactory.createStop(stopName);
-                stops.put(stopName, stop);
-                return stop;
-            } catch (InvalidParameterException e) {
-                throw new InvalidParameterException("This stop is not defined!");
+                stop = stopFactory.createStop(stopName);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
+            stops.put(stopName, stop);
+                return stop;
         }
         return stops.get(stopName);
     }
@@ -49,7 +51,7 @@ public class Stops implements StopGetter{
         try{
             stop = stopFactory.createStop(stopName);
             stops.put(stopName, stop);
-        } catch (InvalidParameterException e){
+        } catch (InvalidParameterException | SQLException e){
             return false;
         }
         stop.updateReachableAt(time, null);

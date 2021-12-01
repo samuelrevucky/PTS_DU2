@@ -4,13 +4,13 @@ import main.common.dataTypes.*;
 import main.common.line.Line;
 import main.common.stop.Stop;
 import main.common.stop.StopGetter;
-import main.inMemory.inMemLineFactory;
+import main.inMemory.InMemLineFactory;
 import org.junit.Test;
 import java.util.*;
 import static org.junit.Assert.assertEquals;
 
 
-public class inMemLineFactory_test {
+public class InMemLineFactory_test {
 
     private static class FakeGetter implements StopGetter {
 
@@ -20,7 +20,7 @@ public class inMemLineFactory_test {
         }
     }
 
-    private inMemLineFactory factory;
+    private InMemLineFactory factory;
 
     private void setup(){
         Map<LineName, Pair<List<Time>, StopName>> lines = new HashMap<>();
@@ -42,7 +42,7 @@ public class inMemLineFactory_test {
                 put(new Time(24), 0);
             }}, 10, new StopName("Zastavka3")));
         }});
-        factory = new inMemLineFactory(lines, lineSegments, new FakeGetter());
+        factory = new InMemLineFactory(lines, lineSegments, new FakeGetter());
     }
 
     @Test

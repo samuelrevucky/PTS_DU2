@@ -3,7 +3,7 @@ package tests.inMemory;
 import main.common.dataTypes.LineName;
 import main.common.dataTypes.StopName;
 import main.common.stop.Stop;
-import main.inMemory.inMemStopFactory;
+import main.inMemory.InMemStopFactory;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class inMemStopFactory_test {
+public class InMemStopFactory_test {
 
-    private inMemStopFactory factory;
+    private InMemStopFactory factory;
 
     private void setup(){
         Map<StopName, List<LineName>> stops = new HashMap<>();
@@ -21,7 +21,7 @@ public class inMemStopFactory_test {
             add(new LineName("1"));
             add(new LineName("2"));
         }});
-        factory = new inMemStopFactory(stops);
+        factory = new InMemStopFactory(stops);
     }
 
     @Test
