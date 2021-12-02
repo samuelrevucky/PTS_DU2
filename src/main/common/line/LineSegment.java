@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 public class LineSegment {
 
+    private final int index;
     private final TimeDiff timeToNextStop;
     private final TreeMap<Time, Integer> numberOfPassengers;
     private final int capacity;
@@ -16,8 +17,10 @@ public class LineSegment {
     private final StopGetter stops;
     private final LineFactory lineFactory;
 
-    public LineSegment(TimeDiff timeToNextStop, TreeMap<Time, Integer> numberOfPassengers,
+    public LineSegment(int index, TimeDiff timeToNextStop, TreeMap<Time, Integer> numberOfPassengers,
                        int capacity, StopName nextStop, LineName lineName, StopGetter stops, LineFactory lineFactory) {
+
+        this.index = index;
         this.timeToNextStop = timeToNextStop;
         this.numberOfPassengers = numberOfPassengers;
         this.capacity = capacity;
@@ -50,7 +53,7 @@ public class LineSegment {
 
     public void incrementCapacity(Time finishTime){
         Time time = new Time(finishTime.getTime() - timeToNextStop.getDiff());
-        //numberOfPassengers.replace(time, numberOfPassengers.get(time), numberOfPassengers.get(time) + 1);
-        lineFactory.incrementCapacity(lineName, time);
+        numberOfPassengers.put(time, numberOfPassengers.get(time) + 1);
+        lineFactory.incrementCapacity(lineName, index, time, numberOfPassengers.get(time));
     }
 }

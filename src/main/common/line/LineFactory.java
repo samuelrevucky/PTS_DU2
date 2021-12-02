@@ -8,5 +8,6 @@ import java.sql.SQLException;
 
 public interface LineFactory {
     Line createLine(LineName lineName) throws SQLException;
-    void incrementCapacity(LineName lineName, Time time);
+    void incrementCapacity(LineName lineName, int index, Time time, int count);
+    void pushUpdates() throws SQLException;
 }

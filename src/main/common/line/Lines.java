@@ -1,8 +1,6 @@
 package main.common.line;
 
-import main.common.stop.StopGetter;
 import main.common.dataTypes.*;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.HashMap;
@@ -31,7 +29,8 @@ public class Lines {
         return lines.get(lineName).updateCapacityAndGetPreviousStop(stopName, time);
     }
 
-    public void clean() {
+    public void clean() throws SQLException {
         lines.clear();
+        lineFactory.pushUpdates();
     }
 }

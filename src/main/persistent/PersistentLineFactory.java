@@ -1,9 +1,7 @@
 package main.persistent;
 
-import main.common.dataTypes.LineName;
-import main.common.dataTypes.StopName;
+import main.common.dataTypes.*;
 import main.common.dataTypes.Time;
-import main.common.dataTypes.TimeDiff;
 import main.common.line.Line;
 import main.common.line.LineFactory;
 import main.common.line.LineSegment;
@@ -18,6 +16,7 @@ public class PersistentLineFactory implements LineFactory {
     private Connection connection = null;
     private final String databasePath;
     private final StopGetter stopGetter;
+    private final ArrayList<String> queries = new ArrayList<>();
 
     public PersistentLineFactory(String databasePath, StopGetter stopGetter) throws SQLException {
         this.databasePath = "jdbc:sqlite:" + databasePath;
@@ -70,7 +69,7 @@ public class PersistentLineFactory implements LineFactory {
                 numberOfPassengers.put(new Time(rs1.getInt("time")), rs1.getInt("pCount"));
             }
             if(index == 0) startingTimes = new ArrayList<>(numberOfPassengers.keySet());
-            lineSegments.add(new LineSegment(timeToNextStop, numberOfPassengers, capacity, nextStop,
+            lineSegments.add(new LineSegment(index, timeToNextStop, numberOfPassengers, capacity, nextStop,
                     new LineName(lineName), stopGetter, this));
         }
         connection.commit();
@@ -79,7 +78,20 @@ public class PersistentLineFactory implements LineFactory {
     }
 
     @Override
-    public void incrementCapacity(LineName lineName, Time time) {
+    public void incrementCapacity(LineName lineName, int index, Time time, int count) {
+        queries.add("UPDATE passengers SET pCount = " + count + " WHERE lineName = '" + lineName.getLineName() +
+                "' AND sIndex = " + index + " AND time = " + time.getTime() + ";");
+    }
 
+    @Override
+    public void pushUpdates() throws SQLException {
+        if(!queries.isEmpty()) {
+            openConnection();
+            for (String x : queries) {
+                connection.createStatement().executeUpdate(x);
+            }
+            connection.commit();
+            closeConnection();
+        }
     }
 }

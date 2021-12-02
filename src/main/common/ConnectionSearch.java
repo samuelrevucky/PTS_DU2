@@ -1,9 +1,7 @@
 package main.common;
 
 import main.common.dataTypes.*;
-import main.common.line.LineFactory;
 import main.common.line.Lines;
-import main.common.stop.StopFactory;
 import main.common.stop.Stops;
 
 import java.sql.SQLException;
@@ -33,14 +31,18 @@ public class ConnectionSearch {
         } catch (SQLException e) {
             e.printStackTrace();
             stops.clean();
-            lines.clean();
-            return new ConnectionData("There was a problem getting line data from DB!");
+            try {
+                lines.clean();
+            } catch (SQLException ignored) {}
+            return new ConnectionData("There was a problem getting line data from/to DB!");
         }
         Optional<Pair<Time, StopName>> pair = stops.earliestReachableStopAfter(time);
 
         while (true) {
             if (pair.isEmpty()) {
-                lines.clean();
+                try {
+                    lines.clean();
+                } catch (SQLException ignored){}
                 stops.clean();
                 return new ConnectionData("There is no possible connection!");
             }
@@ -52,7 +54,9 @@ public class ConnectionSearch {
             } catch (SQLException e) {
                 e.printStackTrace();
                 stops.clean();
-                lines.clean();
+                try {
+                    lines.clean();
+                } catch (SQLException ignored){}
                 return new ConnectionData("There was a problem getting line data from DB!");
             }
             pair = stops.earliestReachableStopAfter(time);
@@ -69,7 +73,12 @@ public class ConnectionSearch {
         }
 
         stack.push(new Tuple<>(new StopName(stopName), new LineName(" "), when));
-        lines.clean();
+        try {
+            lines.clean();
+        } catch (SQLException e) {
+            System.out.println("Problem updating DB!");
+            e.printStackTrace();
+        }
         stops.clean();
         return new ConnectionData("Fastest route found successfully!", stack);
     }

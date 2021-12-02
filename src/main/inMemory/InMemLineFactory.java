@@ -22,14 +22,21 @@ public class InMemLineFactory implements LineFactory {
     public Line createLine(LineName lineName) {
         List<Data<TimeDiff, TreeMap<Time, Integer>, Integer, StopName>> value = lineSegments.get(lineName);
         List<LineSegment> segments = new ArrayList<>();
+        int i = 0;
         for(Data<TimeDiff, TreeMap<Time, Integer>, Integer, StopName> x : value){
-            segments.add(new LineSegment(x.x, new TreeMap<>(x.y), x.w, x.z, new LineName(lineName), stopGetter, this));
+            segments.add(new LineSegment(i, x.x, new TreeMap<>(x.y), x.w, x.z, new LineName(lineName), stopGetter, this));
+            ++i;
         }
         return new Line(lines.get(lineName).x, segments, lines.get(lineName).y);
     }
 
     @Override
-    public void incrementCapacity(LineName lineName, Time time) {
+    public void incrementCapacity(LineName lineName, int index, Time time, int count) {
+        lineSegments.get(lineName).get(index).y.put(time, count);
+    }
+
+    @Override
+    public void pushUpdates() {
 
     }
 }
