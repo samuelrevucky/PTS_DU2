@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-public class PersistentConnectionSearch_test {
+public class PersistentConnectionSearchTest {
 
     private ConnectionSearch connectionSearch;
     private Connection c;
@@ -43,7 +43,7 @@ public class PersistentConnectionSearch_test {
         list.add(new Tuple<>(new StopName("STOP1"), new LineName(" "), new Time(13)));
         list.add(new Tuple<>(new StopName("STOP2"), new LineName("LINE1"), new Time(17)));
         list.add(new Tuple<>(new StopName("STOP4"), new LineName("LINE2"), new Time(30)));
-        for(int i = 0; i < 3; ++i){
+        for (int i = 0; i < 3; ++i) {
             assertEquals(list.get(i), connectionData.getRoute().get(i));
         }
 

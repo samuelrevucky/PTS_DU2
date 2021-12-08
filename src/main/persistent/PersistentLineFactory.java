@@ -1,7 +1,9 @@
 package main.persistent;
 
-import main.common.dataTypes.*;
+import main.common.dataTypes.LineName;
+import main.common.dataTypes.StopName;
 import main.common.dataTypes.Time;
+import main.common.dataTypes.TimeDiff;
 import main.common.line.Line;
 import main.common.line.LineFactory;
 import main.common.line.LineSegment;
@@ -13,10 +15,10 @@ import java.util.TreeMap;
 
 public class PersistentLineFactory implements LineFactory {
 
-    private Connection connection = null;
     private final String databasePath;
     private final StopGetter stopGetter;
     private final ArrayList<String> queries = new ArrayList<>();
+    private Connection connection = null;
 
     public PersistentLineFactory(String databasePath, StopGetter stopGetter) throws SQLException {
         this.databasePath = "jdbc:sqlite:" + databasePath;
@@ -34,6 +36,7 @@ public class PersistentLineFactory implements LineFactory {
         connection.close();
         connection = null;
     }
+
     @Override
     public Line createLine(LineName lineName) throws SQLException {
 
@@ -51,7 +54,7 @@ public class PersistentLineFactory implements LineFactory {
         ArrayList<Time> startingTimes = new ArrayList<>();
         ArrayList<LineSegment> lineSegments = new ArrayList<>();
 
-        while(rs.next()){
+        while (rs.next()) {
             TimeDiff timeToNextStop = new TimeDiff(rs.getInt("duration"));
             int capacity = rs.getInt("capacity");
             StopName nextStop = new StopName(rs.getString("nextStop"));
@@ -65,10 +68,10 @@ public class PersistentLineFactory implements LineFactory {
 
             TreeMap<Time, Integer> numberOfPassengers = new TreeMap<>();
 
-            while(rs1.next()){
+            while (rs1.next()) {
                 numberOfPassengers.put(new Time(rs1.getInt("time")), rs1.getInt("pCount"));
             }
-            if(index == 0) startingTimes = new ArrayList<>(numberOfPassengers.keySet());
+            if (index == 0) startingTimes = new ArrayList<>(numberOfPassengers.keySet());
             lineSegments.add(new LineSegment(index, timeToNextStop, numberOfPassengers, capacity, nextStop,
                     new LineName(lineName), stopGetter, this));
         }
@@ -85,7 +88,7 @@ public class PersistentLineFactory implements LineFactory {
 
     @Override
     public void pushUpdates() throws SQLException {
-        if(!queries.isEmpty()) {
+        if (!queries.isEmpty()) {
             openConnection();
             for (String x : queries) {
                 connection.createStatement().executeUpdate(x);

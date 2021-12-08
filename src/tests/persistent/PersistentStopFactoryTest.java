@@ -7,15 +7,20 @@ import main.persistent.PersistentStopFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 
-public class PersistentStopFactory_test {
+import static org.junit.Assert.assertEquals;
+
+public class PersistentStopFactoryTest {
 
     private PersistentStopFactory factory;
     private Connection c;
@@ -32,11 +37,13 @@ public class PersistentStopFactory_test {
     public void correctStopCreatedTest() throws SQLException {
         Statement stmt = c.createStatement();
         String sql = "INSERT INTO stops VALUES ('STOP1');" +
-                 "INSERT INTO stopLines VALUES ('STOP1', 'LINE1'), ('STOP1', 'LINE2');";
+                "INSERT INTO stopLines VALUES ('STOP1', 'LINE1'), ('STOP1', 'LINE2');";
         stmt.executeUpdate(sql);
         Stop stop = factory.createStop(new StopName("STOP1"));
-        assertEquals(new HashSet<LineName>(){{add(new LineName("LINE1"));
-                                            add(new LineName("LINE2"));}},
+        assertEquals(new HashSet<LineName>() {{
+                         add(new LineName("LINE1"));
+                         add(new LineName("LINE2"));
+                     }},
                 new HashSet<>(stop.getLines()));
     }
 

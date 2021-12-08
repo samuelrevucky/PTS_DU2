@@ -2,7 +2,7 @@ package main.common.dataTypes;
 
 import java.util.Objects;
 
-public class Data<I, II, III, IV>{
+public class Data<I, II, III, IV> {
 
     public final I x;
     public final II y;
@@ -19,7 +19,8 @@ public class Data<I, II, III, IV>{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Data<?, ?, ?, ?> data)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        Data<?, ?, ?, ?> data = (Data<?, ?, ?, ?>) o;
         return Objects.equals(x, data.x) && Objects.equals(y, data.y) && Objects.equals(w, data.w) && Objects.equals(z, data.z);
     }
 

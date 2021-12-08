@@ -2,7 +2,7 @@ package main.common.dataTypes;
 
 import java.util.Objects;
 
-public class Time implements Comparable<Time>{
+public class Time implements Comparable<Time> {
 
     private final Integer time;
 
@@ -10,7 +10,7 @@ public class Time implements Comparable<Time>{
         this.time = time;
     }
 
-    public Time(Time time){
+    public Time(Time time) {
         this.time = time.getTime();
     }
 
