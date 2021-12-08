@@ -1,6 +1,7 @@
 package main.common.stop;
 
 import main.common.dataTypes.StopName;
+
 import java.security.InvalidParameterException;
 import java.sql.SQLException;
 

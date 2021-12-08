@@ -1,6 +1,10 @@
 package main.common.stop;
 
-import main.common.dataTypes.*;
+import main.common.dataTypes.LineName;
+import main.common.dataTypes.Pair;
+import main.common.dataTypes.StopName;
+import main.common.dataTypes.Time;
+
 import java.security.InvalidParameterException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -8,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class Stops implements StopGetter{
+public class Stops implements StopGetter {
 
     private final StopFactory stopFactory;
     private final HashMap<StopName, Stop> stops = new HashMap<>();
@@ -18,8 +22,8 @@ public class Stops implements StopGetter{
     }
 
     @Override
-    public Stop getStop(StopName stopName){
-        if(!stops.containsKey(stopName)) {
+    public Stop getStop(StopName stopName) {
+        if (!stops.containsKey(stopName)) {
             Stop stop = null;
             try {
                 stop = stopFactory.createStop(stopName);
@@ -27,45 +31,47 @@ public class Stops implements StopGetter{
                 e.printStackTrace();
             }
             stops.put(stopName, stop);
-                return stop;
+            return stop;
         }
         return stops.get(stopName);
     }
 
-    public Optional<Pair<Time, StopName>> earliestReachableStopAfter(Time time){
+    public Optional<Pair<Time, StopName>> earliestReachableStopAfter(Time time) {
         StopName bestStopSoFar = null;
         int bestTimeSoFar = Integer.MAX_VALUE;
-        for(Map.Entry<StopName, Stop> x : stops.entrySet()){
+        for (Map.Entry<StopName, Stop> x : stops.entrySet()) {
             int tmp = x.getValue().getReachableAt().x.getTime();
-            if(time.getTime() < tmp && tmp < bestTimeSoFar){
+            if (time.getTime() < tmp && tmp < bestTimeSoFar) {
                 bestTimeSoFar = tmp;
                 bestStopSoFar = x.getKey();
             }
         }
-        if(bestStopSoFar == null) return Optional.empty();
+        if (bestStopSoFar == null) return Optional.empty();
         return Optional.of(new Pair<>(new Time(bestTimeSoFar), bestStopSoFar));
     }
 
-    public boolean setStartingStop(StopName stopName, Time time){
+    public boolean setStartingStop(StopName stopName, Time time) {
         Stop stop;
-        try{
+        try {
             stop = stopFactory.createStop(stopName);
             stops.put(stopName, stop);
-        } catch (InvalidParameterException | SQLException e){
+        } catch (InvalidParameterException | SQLException e) {
             return false;
         }
         stop.updateReachableAt(time, null);
         return true;
     }
 
-    public Pair<Time, LineName> getReachableAt(StopName stop){
+    public Pair<Time, LineName> getReachableAt(StopName stop) {
         return stops.get(stop).getReachableAt();
     }
 
-    public List<LineName> getLines(StopName stop){
+    public List<LineName> getLines(StopName stop) {
         return stops.get(stop).getLines();
     }
 
-    public void clean(){stops.clear();}
+    public void clean() {
+        stops.clear();
+    }
 
 }

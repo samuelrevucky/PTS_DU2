@@ -4,15 +4,16 @@ import main.common.dataTypes.LineName;
 import main.common.dataTypes.StopName;
 import main.common.stop.Stop;
 import main.common.stop.StopFactory;
-import java.sql.*;
+
 import java.security.InvalidParameterException;
+import java.sql.*;
 import java.util.ArrayList;
 
 
 public class PersistentStopFactory implements StopFactory {
 
-    private Connection connection = null;
     private final String databasePath;
+    private Connection connection = null;
 
     public PersistentStopFactory(String databasePath) throws SQLException {
         this.databasePath = "jdbc:sqlite:" + databasePath;

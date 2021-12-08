@@ -10,7 +10,7 @@ public class LineName {
         this.lineName = lineName;
     }
 
-    public LineName(LineName lineName){
+    public LineName(LineName lineName) {
         this.lineName = lineName.getLineName();
     }
 

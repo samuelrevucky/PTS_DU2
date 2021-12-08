@@ -34,10 +34,10 @@ public class ScriptRunner {
 
     private static final String DEFAULT_DELIMITER = ";";
 
-    private Connection connection;
+    private final Connection connection;
 
-    private boolean stopOnError;
-    private boolean autoCommit;
+    private final boolean stopOnError;
+    private final boolean autoCommit;
 
     private PrintWriter logWriter = new PrintWriter(System.out);
     private PrintWriter errorLogWriter = new PrintWriter(System.err);
@@ -83,8 +83,7 @@ public class ScriptRunner {
     /**
      * Runs an SQL script (read in using the Reader parameter)
      *
-     * @param reader
-     *            - the source of the script
+     * @param reader - the source of the script
      */
     public void runScript(Reader reader) throws IOException, SQLException {
         try {
@@ -97,9 +96,7 @@ public class ScriptRunner {
             } finally {
                 connection.setAutoCommit(originalAutoCommit);
             }
-        } catch (IOException e) {
-            throw e;
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw e;
         } catch (Exception e) {
             throw new RuntimeException("Error running script.  Cause: " + e, e);
@@ -110,21 +107,17 @@ public class ScriptRunner {
      * Runs an SQL script (read in using the Reader parameter) using the
      * connection passed in
      *
-     * @param conn
-     *            - the connection to use for the script
-     * @param reader
-     *            - the source of the script
-     * @throws SQLException
-     *             if any SQL errors occur
-     * @throws IOException
-     *             if there is an error reading from the Reader
+     * @param conn   - the connection to use for the script
+     * @param reader - the source of the script
+     * @throws SQLException if any SQL errors occur
+     * @throws IOException  if there is an error reading from the Reader
      */
     private void runScript(Connection conn, Reader reader) throws IOException,
             SQLException {
         StringBuffer command = null;
         try {
             LineNumberReader lineReader = new LineNumberReader(reader);
-            String line = null;
+            String line;
             while ((line = lineReader.readLine()) != null) {
                 if (command == null) {
                     command = new StringBuffer();
@@ -135,15 +128,12 @@ public class ScriptRunner {
                 } else if (trimmedLine.length() < 1
                         || trimmedLine.startsWith("//")) {
                     // Do nothing
-                } else if (trimmedLine.length() < 1
-                        || trimmedLine.startsWith("--")) {
-                    // Do nothing
                 } else if (!fullLineDelimiter
                         && trimmedLine.endsWith(getDelimiter())
                         || fullLineDelimiter
                         && trimmedLine.equals(getDelimiter())) {
-                    command.append(line.substring(0, line
-                            .lastIndexOf(getDelimiter())));
+                    command.append(line, 0, line
+                            .lastIndexOf(getDelimiter()));
                     command.append(" ");
                     Statement statement = conn.createStatement();
 
@@ -199,12 +189,7 @@ public class ScriptRunner {
             if (!autoCommit) {
                 conn.commit();
             }
-        } catch (SQLException e) {
-            e.fillInStackTrace();
-            printlnError("Error executing: " + command);
-            printlnError(e);
-            throw e;
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             e.fillInStackTrace();
             printlnError("Error executing: " + command);
             printlnError(e);
@@ -220,29 +205,19 @@ public class ScriptRunner {
     }
 
     private void print(Object o) {
-        if (logWriter != null) {
-            System.out.print(o);
-        }
+        System.out.print(o);
     }
 
     private void println(Object o) {
-        if (logWriter != null) {
-            logWriter.println(o);
-        }
+        logWriter.println(o);
     }
 
     private void printlnError(Object o) {
-        if (errorLogWriter != null) {
-            errorLogWriter.println(o);
-        }
+        errorLogWriter.println(o);
     }
 
     private void flush() {
-        if (logWriter != null) {
-            logWriter.flush();
-        }
-        if (errorLogWriter != null) {
-            errorLogWriter.flush();
-        }
+        logWriter.flush();
+        errorLogWriter.flush();
     }
 }

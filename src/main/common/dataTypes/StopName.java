@@ -10,7 +10,7 @@ public class StopName {
         this.stopName = stopName;
     }
 
-    public StopName(StopName stopName){
+    public StopName(StopName stopName) {
         this.stopName = stopName.getStopName();
     }
 

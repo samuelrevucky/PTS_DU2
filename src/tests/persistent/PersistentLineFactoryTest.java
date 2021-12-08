@@ -7,12 +7,10 @@ import main.common.line.Line;
 import main.common.stop.Stop;
 import main.common.stop.StopGetter;
 import main.persistent.PersistentLineFactory;
-import main.persistent.PersistentStopFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,15 +21,7 @@ import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 
-public class PersistentLineFactory_test {
-
-    private static class FakeGetter implements StopGetter {
-
-        @Override
-        public Stop getStop(StopName stopName) {
-            return null;
-        }
-    }
+public class PersistentLineFactoryTest {
 
     PersistentLineFactory factory;
     Connection c;
@@ -55,5 +45,13 @@ public class PersistentLineFactory_test {
     public void end() throws SQLException, IOException {
         c.close();
         Files.delete(Path.of("test.db"));
+    }
+
+    private static class FakeGetter implements StopGetter {
+
+        @Override
+        public Stop getStop(StopName stopName) {
+            return null;
+        }
     }
 }

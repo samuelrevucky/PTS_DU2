@@ -25,7 +25,7 @@ public class ConnectionSearch {
             return new ConnectionData("Invalid starting stop!");
 
         List<LineName> lineNames = stops.getLines(from);
-        Time time = null;
+        Time time;
         try {
             time = lines.updateReachable(lineNames, from, when);
         } catch (SQLException e) {
@@ -42,7 +42,7 @@ public class ConnectionSearch {
             if (pair.isEmpty()) {
                 try {
                     lines.clean();
-                } catch (SQLException ignored){}
+                } catch (SQLException ignored) {}
                 stops.clean();
                 return new ConnectionData("There is no possible connection!");
             }
@@ -56,7 +56,7 @@ public class ConnectionSearch {
                 stops.clean();
                 try {
                     lines.clean();
-                } catch (SQLException ignored){}
+                } catch (SQLException ignored) {}
                 return new ConnectionData("There was a problem getting line data from DB!");
             }
             pair = stops.earliestReachableStopAfter(time);
